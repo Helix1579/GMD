@@ -2,10 +2,9 @@
 
 ## High Level Concept/Design
 
-Working Title - Contra
-Concept Statement - Player with the highenst points/fastest time win
-Genre - Action, Arcade, Run and Gun
-Unique Selling Point -
+**Working Title** - Retro Rampage
+**Concept Statement** - A fast-paced action game where players compete for the highest score or the fastest completion time.
+**Genre** - Action | Arcade | Run-and-Gun
 
 ## Product Design
 
@@ -13,15 +12,13 @@ Unique Selling Point -
 
 The player is going to paly the game in Side-scrolling 2D with modern animations and fluid movement. The controls will be tight and responsive, ensuring a smooth and skill-based experience that rewards fast reactions and precision.
 
-<!-- Replayability: Multiple difficulty levels, unlockable weapons, and speedrun leaderboards. -->
-
 ### Visual and Audio Style
 
-Graphics: Pixel-art inspired visuals with high-resolution sprites and smooth animations.
+-   **_Graphics:_** Pixel-art inspired visuals with high-resolution sprites and smooth animations.
 
-Environments: Jungle, military bases, alien landscapes, and futuristic facilities, staying true to the original aesthetics.
+-   **_Environments:_** Jungle, military bases, alien landscapes, and futuristic facilities, staying true to the original aesthetics.
 
-Sound Design: A mix of remastered classic Contra tracks and new compositions, coupled with high-energy gunfire and explosion effects.
+-   **_Sound Design:_** A mix of remastered classic Contra tracks and new compositions, coupled with high-energy gunfire and explosion effects.
 
 ### Game World Fiction
 
@@ -30,18 +27,42 @@ The player takes on the role of an elite commando, part of a last-ditch mission 
 
 ### Platforms(s),Technology, and Scope
 
-The game is going to be built in Unity. The team consists of 2 people @Helix1579 and @vatsal8784. Available on the Web (Maybe) and on PC with controller.
+-   **Game Engine:** Unity
+-   **Development Team:** @Helix1579 & @vatsal8784
+-   **Target Platforms:** PC (controller support), Web (TBD)
 
 ## Detailed & System Design
 
 ### Core Mechanics
 
-The game will feature precise run-and-gun combat with eight-directional aiming. Players will have access to a variety of weapons, including the iconic spread shot, laser rifle, and homing missiles. Enemies will exhibit adaptive behaviors, providing progressively challenging encounters.The HUD will be minimalist, displaying essential elements such as lives, score, weapon type, and ammo. The health and lives system will offer two modes: a classic one-hit death with limited continues or a modern version featuring health bars for a slightly more forgiving experience.
+The game will feature precise run-and-gun combat with eight-directional aiming. Players will have access to a variety of weapons, including spread shot, laser rifle, and homing missiles. Enemies will exhibit adaptive behaviors, providing progressively challenging encounters.The HUD will be minimalist, displaying essential elements such as lives, score, weapon type, and ammo. The health and lives system will offer two modes: a classic one-hit death with limited continues or a modern version featuring health bars for a slightly more forgiving experience.
 
 ### Levels and Boss Design
 
-Levels will be structured with linear progression while incorporating secret areas. Boss fights will be multi-stage battles with large-scale enemies and checkpoints will be strategically placed to maintain a fair but challenging experience.
+-   **Level Structure:** Linear progression with hidden paths and secret power-ups.
+-   **Boss Fights:** Large-scale, multi-stage battles with evolving attack patterns.
+-   **Checkpoint System:** Strategically placed checkpoints for a fair but challenging experience.
 
 ### Progression & Unlockables
 
-The game will feature both Classic and Modern modes. Classic mode will stay true to the original Contra difficulty, while Modern mode will include optional checkpoints, accessibility settings, and additional weapons. Unlockable content will include weapon Upgrades, Equipments (Like Greanade and stuff) and alternate game modes to encourage replayability.
+-   **Game Modes:**
+    -   **Classic Mode:** Brutal difficulty, one-hit kill (max 3 lives)
+    -   **Modern Mode:** Optional checkpoints and enhanced weapons.
+-   **Unloackables**
+    -   **Weapon Upgrades** – Stronger firepower and special effects.
+    -   **Equipment Add-ons** – Grenades, shields, and tactical gear.
+    -   **Alternate Game Modes** – Speedrun challenges, boss rush, and hardcore difficulty settings.
+
+## Milestones
+
+### Milestone-1: Run and Gun
+
+The game will be based on Run and Gun, where the player will be awarded points for killing enemies. When the player crosses certain amount of point threshold then they will unlock a new and better weapon.
+
+### Milestone-2: Enemy AI
+
+The enemies would be free roaming in the map, as soon as they detect the player or when the player shoots at them, they will start to fight the player back. Also including difficulty levels where player can select which difficulty level to chose.
+
+### Milestone-3: Boss Battles
+
+The boss battles are going to be multi staged, when a player reduces certain amount of health of the boss, the mechanics of the boss will change and they will be taken to new environment with increase in difficulty.
