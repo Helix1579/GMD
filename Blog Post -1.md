@@ -1,8 +1,7 @@
 # Roll-a-Ball: Our First Game Development Experience
 
-## Introduction
-
-Starting game development can be an exciting yet challenging journey, and my first project, Roll-a-Ball, was the perfect introduction to Unity and C#. This game, though simple, helped me grasp the fundamentals of game physics, player movement, collision detection, and UI implementation. In this blog post, I'll walk through my experience, key technical aspects, and code snippets that brought my first game to life.
+## Introduction 
+This is our first game development project , we had a prior experience to editor but still making this simple yet interesting game was challenging. This game helped us with game devlopment fundamentals such as physics , player momvement , collision detection. We will walk you through our experience , technical aspects, and code snippets that brought our first game to life.
 
 ## Game Concept
 
@@ -16,11 +15,11 @@ The project started with creating a new 3D Unity project and adding basic game o
 - **Sphere**: Acted as the player-controlled ball.
 - **Pickups**: Small cubes scattered around the plane for the player to collect.
 
-After setting up the environment, I assigned materials to objects to improve the visual appeal.
+After setting up the environment, we assigned materials to objects to improve the visual appeal.
 
 ## Player Movement
 
-To enable player movement, I attached a Rigidbody to the sphere for physics-based interactions. Then, I wrote a simple C# script to control movement using user input:
+To enable player movement, we used Rigidbody to the sphere for basic physics interactions. Then, we wrote a simple C# script to control movement using user input:
 
 ```csharp
 using UnityEngine;
@@ -44,11 +43,12 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(movement * speed);
     }
 }
-This script allows the player to move the ball using the arrow keys or WASD. The FixedUpdate() method ensures smooth physics-based movement.
+```
+This above piece of code allows player to move the ball around the map using arrow keys. The Fixedupdate method allows a smooth movement throught the game
 
 ## Collecting Pickups
 
-Each pickup object had a Collider component set to "Is Trigger" to detect player interaction. A script was attached to detect when the ball collides with a pickup and removes it from the scene:
+When we made the pickup object we had a collider component set to "Is Trigger" to detect player interaction. We made a script which detects when the ball collides with a pickup object , it directly gets removed from the scene.
 
 ```csharp
 using UnityEngine;
@@ -63,13 +63,13 @@ public class Pickup : MonoBehaviour
         }
     }
 }
-
-To ensure detection works, I tagged the player object as "Player" in Unity's Inspector.
+```
+To make sure that the colliding detection works , we flagged the player object as "Player" in Unity's Inspector.
 
 
 ## Camera Follow
 
-To enhance the gameplay experience, I implemented a simple camera follow system using a script:
+This was one of the most important feature of the game , as it makes the game experience really better. We implemented a camera that follows the ball
 
 ```csharp
 using UnityEngine;
@@ -79,7 +79,7 @@ public class CameraController : MonoBehaviour
     public Transform player;
     private Vector3 offset;
 
-    void Start()
+    void Start()        
     {
         offset = transform.position - player.position;
     }
@@ -89,9 +89,10 @@ public class CameraController : MonoBehaviour
         transform.position = player.position + offset;
     }
 }
+```
 
-This script ensures the camera smoothly follows the ball while maintaining a fixed offset.
+The above script ensure the camera follows the ball smoothly , and in the Start() method the offset variable maintans a fixed offset throughout.
 
 ## Final Thoughts
 
-Building Roll-a-Ball was an incredible learning experience. It introduced me to Unity's physics engine, user input handling, collision detection, and UI updates. While the game itself is simple, it lays a solid foundation for future projects. My next steps include adding sound effects, visual effects, and refining player controls.
+Building Roll-a-Ball was an incredible learning experience. It introduced us to Unity's physics engine, user input handling, collision detection, and UI updates. While the game itself is simple, it lays a solid foundation for future projects. 
