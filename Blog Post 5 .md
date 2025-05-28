@@ -1,22 +1,18 @@
-# Milestone 2: Unleashing the Beasts – My Dive into Enemy AI and Difficulty
+# Milestone 2:  Enemy AI and Difficulty
 
 ---
-
-With the core "run and gun" loop established, my next big challenge was bringing it to life with **worthy adversaries**. A game without enemies is just a **glorified walking simulator**, and my vision for dynamic, engaging combat demanded more than static targets.
-
-Thus began **Milestone 2: Enemy AI and Difficulty Levels** — a journey into the **fascinating**, yet often **frustrating**, world of artificial intelligence and balancing gameplay challenge.
-
+ A game without enemies is just a **glorified walking simulator**, and the vision for dynamic, engaging combat demanded more than static targets.
 ---
 
-## The Minds of Mayhem: Designing Enemy AI
+## Designing Enemy AI
 
-I envisioned a few distinct enemy behaviors:
+We envisioned a few distinct enemy behaviors:
 
 - A simple **Patrol** type that just moves around.
 - A more aggressive **Ranged Chase** enemy that actively hunts the player.
 - A **Turret** type (planned later) that would act as a static but dangerous threat.
 
-To keep these behaviors flexible and maintainable, I introduced an `IEnemyAI` interface — the **contract** that all enemy AIs would follow.
+To keep these behaviors flexible and maintainable, we introduced an `IEnemyAI` interface — the **contract** that all enemy AIs would follow.
 
 ```csharp
 public interface IEnemyAI
@@ -25,36 +21,29 @@ public interface IEnemyAI
     void Init(EnemyConfig config);
     void SetFirePoint(Transform firePoint); // Essential for flexible enemy design
 }
+```
 Why an Interface?
-This interface was crucial to decoupling enemy logic from specific behavior implementations:
-
-I could swap out AI types on different enemy prefabs.
-
+This interface was crucial to decoupling enemy logic from specific behavior implementations: 
+Could swap out AI types on different enemy prefabs.
 Core enemy logic stayed untouched — no messy conditionals for behavior types.
-
 It encouraged clean, modular design and made future extensions (like adding a turret AI) far simpler.
 
-```
-This interface was crucial for allowing me to swap out AI types on different enemy prefabs without changing core enemy logic.
-# Ranged Chase AI: The Hunter
+# Ranged Chase AI
 
 ---
 
-For Milestone 2, the **RangedChaseAI** was the most complex beast I had to tame. It needed to:
+For Milestone 2, the **RangedChaseAI** was the most complex. It needed to:
 
 - Detect the player,
 - Chase them until within firing range,
 - Stop, face the player, and shoot,
 - React to player movement,
 - Flip its sprite to face the target.
-
-Sounds simple on paper — but the implementation brought with it a swarm of edge cases and painful bugs.
-
 ---
 
 ## Core Logic: Chase, Stop, and Shoot
 
-Here's the core structure of my `RangedChaseAI` implementation:
+Here's the core structure of  `RangedChaseAI` implementation:
 
 ```csharp
 public class RangedChaseAI : MonoBehaviour, IEnemyAI
@@ -100,24 +89,11 @@ public class RangedChaseAI : MonoBehaviour, IEnemyAI
     }
 }
 ```
-Hardship 1: The Stationary Shooter
-One of the first bugs? The enemy would just... stand there, doing nothing — even when the player was clearly within range. After some grueling debugging, the issues became clear:
-
-NavMeshAgent not initialized properly, or
-
-Getting stuck on colliders or terrain geometry.
-
-Fixes that helped:
-Set agent.updateRotation = false and agent.updateUpAxis = false to avoid Unity’s 3D nav logic interfering with 2D sprites.
-
+The enemy would just... stand there, doing nothing — even when the player was clearly within range. After some debugging, the issues became clear:
+NavMeshAgent not initialized properly, or getting stuck on colliders or terrain geometry.
 Make sure the NavMesh was baked correctly and did not intersect with enemy colliders.
-
 Use agent.ResetPath() before shooting to prevent “nudging” behavior that interrupted aim.
-
-Hardship 2: The FirePoint Flip Flop
-Getting the enemy to face the player was straightforward. But then came a ghostly bug: bullets started firing from behind the enemy or out of thin air.
-
-Why? Because when the sprite flipped, the firePoint (bullet spawn location) didn’t flip with it!
+Getting the enemy to face the player was straightforward.The bullets started firing from behind the enemy or out of thin air because when the sprite flipped, the firePoint (bullet spawn location) didn’t flip with it!
 
 The Fix: Flip the FirePoint manually
 ```csharp
@@ -132,7 +108,7 @@ Vector3 fpLocal = firePoint.localPosition;
 fpLocal.x = -fpLocal.x; // <--- The magical line!
 firePoint.localPosition = fpLocal;
 ```
-# Patrol AI: The Simple Wanderer
+# Patrol AI
 
 The `PatrolAI` was simpler, focusing on moving between two designated points and only engaging if provoked.
 
@@ -166,16 +142,11 @@ public class PatrolAI : MonoBehaviour, IEnemyAI
     // ...
 }
 ```
-Hardship 3: The Passive Aggressor
-My patrol enemies were a bit too passive. They'd patrol, and even if the player was right in front of them, they'd just keep walking. The trigger for isProvoked was only based on attackRange.
-
-I quickly realized that enemies also needed to react if the player shot at them. This meant the enemy's TakeDamage method (from the health system) needed to set isProvoked = true on the AI component.
-
-This seemingly small addition drastically improved the enemies' reactive behavior and made the game feel more dynamic. It forced me to think about how different systems (AI, Health, Combat) needed to communicate with each other.
+The patrol enemies were a bit too passive. They'd patrol, and even if the player was right in front of them, they'd just keep walking. The trigger for isProvoked was only based on attackRange. We realized that enemies also needed to react if the player shot at them. This meant the enemy's TakeDamage method (from the health system) needed to set isProvoked = true on the AI component.
 
 # The Balancing Act: Difficulty Levels
 
-Introducing difficulty was paramount to making the game replayable and accessible. I decided on three levels: **Noob**, **Pro**, and **Rampage**, each with configurable settings for enemy health, damage, and spawn limits.
+Introducing difficulty was important to making the game replayable and accessible. We decided on three levels: **Noob**, **Pro**, and **Rampage**, each with configurable settings for enemy health, damage, and spawn limits.
 
 ```csharp
 public enum DifficultyLevel { Noob, Pro, Rampage }
@@ -210,16 +181,11 @@ public class GameManager : MonoBehaviour
 }
 
 ```
-
-Hardship 4: The Static Difficulty Trap
-My initial approach to difficulty settings was to just have a DifficultySetting class and set values directly. However, if I changed those values in the Inspector while playing, they wouldn't persist, and if I changed them in code, it became hard to balance.
-
-The solution was using ScriptableObjects for each DifficultySetting. This allowed me to create distinct "Noob Settings", "Pro Settings", and "Rampage Settings" assets in Unity, which could be easily configured and swapped out at runtime via the GameManager.
-
+The initial approach to difficulty settings was to just have a DifficultySetting class and set values directly. However, if we changed those values in the Inspector while playing, they wouldn't persist, and if we changed them in code, it became hard to balance.
+The solution was using ScriptableObjects for each DifficultySetting. This allowed to create distinct "Noob Settings", "Pro Settings", and "Rampage Settings" assets in Unity, which could be easily configured and swapped out at runtime via the GameManager.
 This decoupled the settings from the GameManager script itself, making them data-driven and far more flexible.
 
-Hardship 5: Orchestrating the Main Menu
-Integrating the difficulty selection into the MainMenuManager was a bit of a dance. The game needed to pause (Time.timeScale = 0f), present difficulty options, and then, once selected, resume gameplay (Time.timeScale = 1f) and hide the menu.
+Integrating the difficulty selection into the MainMenuManager was tricky. The game needed to pause (Time.timeScale = 0f), present difficulty options, and then, once selected, resume gameplay (Time.timeScale = 1f) and hide the menu.
 
 
 ```csharp
@@ -246,4 +212,4 @@ public class MainMenuManager : MonoBehaviour
     // ...
 }
 ```
-The immediate headaches involved null references if GameManager.Instance wasn't ready, or UI elements not showing/hiding correctly. Debugging UI state changes and Time.timeScale interactions was a test of patience—especially when input seemed to mysteriously stop working (because Time.timeScale was still 0!).
+Completing this milestone was incredibly rewarding. The game now had intelligent enemies that reacted to the player, and a system for adjusting the game's challenge. This shifted the game from a target practice simulator to a dynamic combat arena.
