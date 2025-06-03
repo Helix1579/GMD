@@ -101,7 +101,7 @@ Alright, let's talk about the big guns. After building the foundational run-and-
 The Architect of Annihilation: My Boss AI
 The core of this milestone was the BossAI script. My vision for the boss was something that transformed as its health dwindled, pushing the player to adapt. This meant distinct phases, each with its own set of rules, attack patterns, and even visual changes.
 
-C#
+```csharp
 
 public class BossAI : MonoBehaviour
 {
@@ -145,11 +145,13 @@ public class BossAI : MonoBehaviour
     }
     // ... HandlePhaseTransition, EnterPhase, SetTurrets methods ...
 }
+```
+
 The approach involved having arrays for phaseFireRates, phaseAttackRange, bulletPrefabs, turretSprites, and bulletSounds. The index of these arrays would correspond to the BossPhase enum, allowing for a clean and scalable way to define phase-specific attributes.
 
 Hardship 1: The Phase Transition Quagmire. The most critical part of a multi-stage boss is the HandlePhaseTransition logic. My initial attempts were riddled with bugs: phases not triggering, triggering multiple times, or even worse, skipping phases entirely.
 
-C#
+```csharp
 
 void HandlePhaseTransition(int hp)
 {
@@ -170,11 +172,12 @@ void HandlePhaseTransition(int hp)
     }
     // No need to go back to Phase1 once you're in Phase2 or 3
 }
+```
 The breakthrough came with understanding that I needed to check for the most advanced phase first. If the boss's health dropped below the Phase 3 threshold, it should immediately jump to Phase 3, regardless of whether it briefly passed through the Phase 2 threshold. Also, explicitly checking currentPhase != BossPhase.Phase3 or currentPhase == BossPhase.Phase1 prevented re-entering a phase and ensured a linear progression. This seemingly simple ordering and conditional check saved me hours of frustration, as I'd previously had issues with the boss oscillating between phases or not entering the correct one.
 
 Hardship 2: The Decoupled Minions. Instead of the boss itself being a single monolithic entity, I decided to give it TurretController children. These turrets would perform the actual shooting. This design offered a lot of flexibility: I could have multiple turrets, place them strategically around the boss, and they could independently handle their own targeting and firing. The BossAI would then simply tell its turrets what to shoot and how fast.
 
-C#
+```csharp
 
 void SetTurrets(float rate, GameObject prefab, float range, Sprite sprite, AudioClip sound)
 {
@@ -187,6 +190,7 @@ void SetTurrets(float rate, GameObject prefab, float range, Sprite sprite, Audio
         turret.UpdateTurretSound(sound);
     }
 }
+```
 The hardship here was ensuring the BossAI correctly initialized and updated these turrets. Early on, some turrets wouldn't fire, or they'd retain old settings. This often boiled down to:
 
 Improper initialization: Not all turrets were being correctly added to the turrets array in the Inspector.
